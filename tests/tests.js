@@ -268,6 +268,34 @@ describe('Fastest tester', () => {
     });
 
     test({
+      exec: () => tester.elementsByXpath('path').text(),
+
+      handleThen: (res, requests) => {
+        expect(server.requests).to.eql(requests);
+        expect(res).to.eql('foo bar');
+      },
+
+      responses: [{
+        value: [
+          { element: elementId },
+          { element: newElementId() }
+        ]
+      }, {
+        value: 'foo bar'
+      }],
+
+      requests: [{ 
+        method: 'POST',
+        path: `/wd/hub/session/${sessionId}/elements`,
+        body: {using: 'xpath', value: 'path'}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/text`,
+        body: {}
+      }]
+    });
+
+    test({
       exec: () => tester.elementsByXpath('path').flick({xoffset: 1, yoffset: 2, speed: 3}),
 
       responses: [{
