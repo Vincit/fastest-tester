@@ -51,9 +51,20 @@ describe('Fastest tester', () => {
     let tester;
 
     before(() => {
-      tester = new Tester({options});
+      tester = new Tester(options);
       server.responses = [{sessionId}];
-      return tester.init();
+      return tester.init().then(() => {
+        expect(server.requests).to.eql([{
+          method: 'POST',
+          path: '/wd/hub/session',
+          body: { 
+            desiredCapabilities: { 
+              serverUrl: 'http://localhost:12345',
+              packageName: 'fi.foo.bar' 
+            }
+          }
+        }]);
+      });
     });
 
     test({
@@ -903,7 +914,7 @@ describe('Fastest tester', () => {
     let tester;
 
     before(() => {
-      tester = new AndroidTester({options});
+      tester = new AndroidTester(options);
       server.responses = [{sessionId}];
       return tester.init();
     });
