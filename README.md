@@ -1,14 +1,26 @@
 # Tester for the Fastest mobile test framework
 
 ```js
+const { Server } = require('fastest-server');
 const { AndroidTester } = require('fastest-tester');
 
 describe('My app tests', () => {
+  const port = 12345;
+
+  let server;
   let tester;
 
   before(() => {
+    server = new Server({
+      port
+    });
+
+    return server.start();
+  });
+
+  before(() => {
     tester = new AndroidTester({
-      serverUrl: `http://localhost:12345`,
+      serverUrl: `http://localhost:${port}`,
 
       app: 'path/to/the/app.apk',
       packageName: 'fi.your.package.name'
