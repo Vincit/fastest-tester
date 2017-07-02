@@ -1,4 +1,4 @@
-# Tester for the Fastest mobile test framework
+## Tester for Fastest mobile test automation framework
 
 ```js
 const { Server } = require('fastest-server');

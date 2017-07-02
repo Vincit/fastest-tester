@@ -6,8 +6,15 @@
   "scripts": {
     "test": "mocha --slow 10 --timeout 15000 --reporter spec --recursive tests"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Vincit/fastest-tester.git"
+  },
   "author": "Sami Koskimäki",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vincit/fastest-tester/issues"
+  },
   "dependencies": {
     "lodash": "^4.17.4",
     "uuid": "^3.1.0",
