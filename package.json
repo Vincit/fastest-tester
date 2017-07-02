@@ -1,0 +1,22 @@
+{
+  "name": "fastest-tester",
+  "version": "0.1.0",
+  "description": "Tester client for the Fastest testing framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --slow 10 --timeout 15000 --reporter spec --recursive tests"
+  },
+  "author": "Sami Koskimäki",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "uuid": "^3.1.0",
+    "yaquest": "github:koskimas/yaquest"
+  },
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "expect.js": "^0.3.1",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2"
+  }
+}
