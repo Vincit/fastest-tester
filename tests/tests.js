@@ -10,7 +10,11 @@ describe('Fastest tester', () => {
   const port = 12345;
   const sessionId = uuid.v4();
   const elementId = newElementId();
-  const capabilities = {foo: 'bar'};
+
+  const options = {
+    serverUrl: `http://localhost:${port}`,
+    packageName: 'fi.foo.bar'
+  };
 
   let server;
 
@@ -47,11 +51,7 @@ describe('Fastest tester', () => {
     let tester;
 
     before(() => {
-      tester = new Tester({
-        serverUrl: `http://localhost:${port}`,
-        caps: capabilities
-      });
-
+      tester = new Tester({options});
       server.responses = [{sessionId}];
       return tester.init();
     });
@@ -875,12 +875,7 @@ describe('Fastest tester', () => {
     let tester;
 
     before(() => {
-      tester = new AndroidTester({
-        serverUrl: `http://localhost:${port}`,
-        caps: capabilities,
-        packageName: 'fi.foo.bar'
-      });
-
+      tester = new AndroidTester({options});
       server.responses = [{sessionId}];
       return tester.init();
     });

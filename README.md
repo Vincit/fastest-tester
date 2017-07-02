@@ -9,8 +9,16 @@ describe('My app tests', () => {
   before(() => {
     tester = new AndroidTester({
       serverUrl: `http://localhost:12345`,
-      caps: capabilities,
-      packageName: 'my.app.package.name')
+
+      app: 'path/to/the/app.apk',
+      packageName: 'fi.your.package.name'
+      platformName: 'Android',
+      platformVersion: '6.0',
+
+      // Name of the android virtual device (if using emulator).
+      avdName: 'Sony_xperia_z5_compact_API_23',
+      // The android emulator device name.
+      deviceName: 'emulator-5554'
     });
 
     return tester.init();
@@ -25,7 +33,11 @@ describe('My app tests', () => {
       // Guess what this does?
       .flickRight()
       // Test that something is visible without waiting.
-      .textView('I became visible').isVisible();
+      .textView('I became visible').isVisible()
+      // Select an element by android id and get its text.
+      .viewByAndroidId('some_id').text().then(text => {
+        console.log(text);
+      });
   });
 
 });
