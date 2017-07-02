@@ -12,7 +12,9 @@ describe('My app tests', () => {
 
   before(() => {
     server = new Server({
-      port
+      port,
+      // Android SDK path. If omitted ANDROID_HOME env variable is used.
+      sdkPath: '/path/to/sdk/root'
     });
 
     return server.start();
@@ -53,7 +55,7 @@ describe('My app tests', () => {
         // Last visible text input.
         .reverseAt(0).setValue('eggs')
       // Select an element by android id and get its text.
-      .viewByAndroidId('some_id').text().then(text => {
+      .viewById('some_id').text().then(text => {
         console.log(text);
       });
   });

@@ -924,7 +924,7 @@ describe('Fastest tester', () => {
     });
 
     test({
-      exec: () => tester.viewsByAndroidId('some_id'),
+      exec: () => tester.viewsById('some_id'),
 
       responses: [{
         value: [
@@ -941,7 +941,7 @@ describe('Fastest tester', () => {
     });
 
     test({
-      exec: () => tester.viewByAndroidId('some_id'),
+      exec: () => tester.viewById('some_id'),
 
       responses: [{
         value: [
