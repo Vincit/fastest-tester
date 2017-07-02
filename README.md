@@ -34,6 +34,12 @@ describe('My app tests', () => {
       .flickRight()
       // Test that something is visible without waiting.
       .textView('I became visible').isVisible()
+      // Get all visible text inputs (EditTexts) and write some text to them.
+      .textInputs()
+        .at(0).setValue('foo')
+        .at(1).setValue('bar')
+        // Last visible text input.
+        .reverseAt(0).setValue('eggs')
       // Select an element by android id and get its text.
       .viewByAndroidId('some_id').text().then(text => {
         console.log(text);
