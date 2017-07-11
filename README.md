@@ -29,7 +29,8 @@ describe('My app tests', () => {
       platformName: 'Android',
       platformVersion: '6.0',
 
-      // Name of the android virtual device (if using emulator).
+      // Name of the android virtual device. This is only needed if you want 
+      // Fastest to start the emulator in case it's not running.
       avdName: 'Sony_xperia_z5_compact_API_23',
       // The android emulator device name.
       deviceName: 'emulator-5554'
