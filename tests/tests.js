@@ -59,7 +59,6 @@ describe('Fastest tester', () => {
           path: '/wd/hub/session',
           body: { 
             desiredCapabilities: { 
-              serverUrl: 'http://localhost:12345',
               packageName: 'fi.foo.bar' 
             }
           }
@@ -789,6 +788,139 @@ describe('Fastest tester', () => {
 
       handleCatch: (err) => {
         expect(err.message).to.equal('element "disabled element[0]" is not displayed');
+      },
+
+      responses: [{}, {
+        value: [
+          { element: elementId },
+          { element: newElementId() }
+        ]
+      }, {
+        value: false
+      }, {
+        value: false,
+      }, {
+        value: false,
+      }, {
+        value: false,
+      }]
+    });
+
+    test({
+      exec: () => tester.elementsByXpath('selected element').isSelected(),
+
+      responses: [{
+        value: [
+          { element: elementId },
+          { element: newElementId() }
+        ]
+      }, {
+        value: true
+      }],
+
+      requests: [{ 
+        method: 'POST',
+        path: `/wd/hub/session/${sessionId}/elements`,
+        body: {using: 'xpath', value: 'selected element'}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/selected`,
+        body: {}
+      }]
+    });
+
+    test({
+      exec: () => tester.elementsByXpath('unselected element').isSelected(),
+
+      handleThen: () => { 
+        throw new Error('should not get here'); 
+      },
+
+      handleCatch: err => {
+        expect(err.message).to.equal('element "unselected element[0]" is not selected');
+      },
+
+      responses: [{
+        value: [
+          { element: elementId },
+          { element: newElementId() }
+        ]
+      }, {
+        value: false
+      }],
+      requests: [{ 
+        method: 'POST',
+        path: `/wd/hub/session/${sessionId}/selected`,
+        body: {using: 'xpath', value: 'unselected element'}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/selected`,
+        body: {}
+      }]
+    });
+
+    test({
+      name: "tester.elementsByXpath('selected element').waitSelected()",
+
+      exec: () => {
+        return tester
+          .setImplicitWaitTimeout(200)
+          .elementsByXpath('selected element')
+          .waitSelected();
+      },
+
+      responses: [{}, {
+        value: [
+          { element: elementId },
+          { element: newElementId() }
+        ]
+      }, {
+        value: false
+      }, {
+        value: false,
+      }, {
+        value: true,
+      }],
+
+      requests: [{ 
+        method: 'POST',
+        path: `/wd/hub/session/${sessionId}/timeouts/implicit_wait`,
+        body: { ms: 200 } 
+      }, { 
+        method: 'POST',
+        path: `/wd/hub/session/${sessionId}/elements`,
+        body: {using: 'xpath', value: 'selected element'}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/selected`,
+        body: {}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/selected`,
+        body: {}
+      }, {
+        method: 'GET',
+        path: `/wd/hub/session/${sessionId}/element/${elementId}/selected`,
+        body: {}
+      }]
+    });
+
+    test({
+      name: "tester.elementsByXpath('unselected element').waitSelected()",
+
+      exec: () => {
+        return tester
+          .setImplicitWaitTimeout(120)
+          .elementsByXpath('unselected element')
+          .waitSelected();
+      },
+
+      handleThen: () => {
+        throw new Error('should not get here');
+      },
+
+      handleCatch: (err) => {
+        expect(err.message).to.equal('element "unselected element[0]" is not selected');
       },
 
       responses: [{}, {
